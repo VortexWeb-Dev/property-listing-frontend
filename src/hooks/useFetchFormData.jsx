@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import getAuthHeaders from "../utils/getAuthHeader";
+import { tabs } from "../enums/sidebarTabsEnums";
 
 export default function useFetchFormData(setMainTab) {
   const [formData, setFormData] = useState({
@@ -56,6 +57,7 @@ export default function useFetchFormData(setMainTab) {
   ];
 
   useEffect(() => {
+    setMainTab(tabs.HIDDEN);
     const fetchData = async () => {
       try {
         // Fetch locations
@@ -111,8 +113,6 @@ export default function useFetchFormData(setMainTab) {
         } else {
           formData.company_id = infoData.company_id;
         }
-
-        setMainTab(tabs.HIDDEN);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
