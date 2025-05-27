@@ -17,12 +17,11 @@ import {
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
 
 const paymentMethods = ["Cash", "Bank Transfer", "Cheque", "Credit Card"];
 const chequeOptions = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
 
-const Pricing = ({ formData, setField, prevStep }) => {
+const Pricing = ({ formData, setField }) => {
   // grab shared form context
   const { control, setValue, trigger, getValues } = useFormContext();
 
@@ -284,20 +283,6 @@ const Pricing = ({ formData, setField, prevStep }) => {
             </FormItem>
           )}
         />
-      </div>
-
-      <div className="flex justify-between mt-6">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={prevStep}
-          className="w-full sm:w-auto"
-        >
-          Back
-        </Button>
-        <Button type="submit" className="w-full sm:w-auto">
-          Continue
-        </Button>
       </div>
     </div>
   );

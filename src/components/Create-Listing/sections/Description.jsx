@@ -10,9 +10,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
 
-const Description = ({ setField, prevStep }) => {
+const Description = ({ setField }) => {
   const [activeTab, setActiveTab] = useState("english");
   const { control, setValue, trigger, getValues } = useFormContext();
 
@@ -133,20 +132,6 @@ const Description = ({ setField, prevStep }) => {
           </div>
         </TabsContent>
       </Tabs>
-
-      <div className="flex justify-between mt-6">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={prevStep}
-          className="w-full sm:w-auto"
-        >
-          Back
-        </Button>
-        <Button type="submit" className="w-full sm:w-auto">
-          Continue
-        </Button>
-      </div>
     </div>
   );
 };

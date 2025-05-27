@@ -55,7 +55,7 @@ const Specifications = ({ formData, setField }) => {
   return (
     <div className="space-y-6">
       <div className="border-b pb-4">
-        <h2 className="text-xl font-semibold">Property Specifications</h2>
+        <h2 className="text-xl font-semibold">Specifications</h2>
         <p className="text-muted-foreground text-sm">
           Enter the basic details about your property.
         </p>
@@ -386,8 +386,8 @@ const Specifications = ({ formData, setField }) => {
                 </FormControl>
                 <SelectContent>
                   {formData.developers.map((dev) => (
-                    <SelectItem key={dev} value={dev}>
-                      {dev}
+                    <SelectItem key={dev.id} value={String(dev.id)}>
+                      {dev.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -396,12 +396,6 @@ const Specifications = ({ formData, setField }) => {
             </FormItem>
           )}
         />
-      </div>
-
-      <div className="flex justify-end mt-6">
-        <Button type="submit" className="w-full sm:w-auto">
-          Continue
-        </Button>
       </div>
     </div>
   );

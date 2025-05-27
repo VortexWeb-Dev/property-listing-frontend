@@ -1,5 +1,6 @@
 // src/hooks/useCreateListingData.jsx
 import { useState, useEffect, useCallback } from "react";
+import getAuthHeaders from "@/utils/getAuthHeader";
 
 export function useCreateListingData() {
   // 1) Define the wizard steps
@@ -74,6 +75,7 @@ export function useCreateListingData() {
 
     // Option lists (populated from APIs)
     developers: [],
+    companies: [],
     agents: [],
     owners: [],
     amenitiesList: [],
@@ -90,29 +92,54 @@ export function useCreateListingData() {
   // 5) Fetch dropdown data once on mount
   useEffect(() => {
     async function loadOptions() {
+      const API_BASE_URL = "https://backend.myemirateshome.com/api";
+      const headers = getAuthHeaders();
+      const user = JSON.parse(localStorage.getItem("userData") || "{}");
       try {
-        const [devRes, agentRes, ownerRes, amenRes] = await Promise.all([
-          fetch("/api/developers"),
-          fetch("/api/agents/list"),
-          fetch("/api/owners"),
-          fetch("/api/amenities"),
+        if (user.role === "super_admin") {
+          // fetch both companies + each company’s agents
+          const res = await fetch(`${API_BASE_URL}/listing/create-info`, {
+            headers,
+          });
+          const { companies } = await res.json();
+          setFormData((f) => ({
+            ...f,
+            companies,
+            agents: [],
+          }));
+        } else {
+          // non-admin: only agents list
+          const res = await fetch(`${API_BASE_URL}/listing/agents`, {
+            headers,
+          });
+          const { agents } = await res.json();
+          setFormData((f) => ({
+            ...f,
+            companies: [],
+            agents,
+          }));
+        }
+
+        // these other lists remain unchanged
+        const [devRes, ownerRes, amenRes] = await Promise.all([
+          fetch(`${API_BASE_URL}/developers`, { headers }),
+          fetch(`${API_BASE_URL}/listOwners`, { headers }),
+          fetch(`${API_BASE_URL}/amenities`, { headers }),
         ]);
-        const [devData, agentData, ownerData, amenData] = await Promise.all([
+        const [devData, ownerData, amenData] = await Promise.all([
           devRes.json(),
-          agentRes.json(),
           ownerRes.json(),
           amenRes.json(),
         ]);
 
         setFormData((f) => ({
           ...f,
-          developers: devData, // expect array of { id, name }
-          agents: agentData, // expect array of { id, name }
-          owners: ownerData, // expect array of { id, name }
-          amenitiesList: amenData, // expect array of { id, amenity_name }
+          developers: devData,
+          owners: ownerData.owners,
+          amenitiesList: amenData,
         }));
       } catch (err) {
-        console.error("Failed to load select options", err);
+        console.error("Failed to load create-info / agents", err);
       }
     }
     loadOptions();
@@ -146,6 +173,7 @@ export function useCreateListingData() {
   return {
     formData,
     setField,
+    setFormData,
     currentStep,
     nextStep,
     prevStep,

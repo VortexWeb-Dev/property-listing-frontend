@@ -9,9 +9,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
 
-const PermitDetails = ({ formData, setField, prevStep, isDubai = true }) => {
+const PermitDetails = ({ formData, setField, isDubai = true }) => {
   // Local tab state
   const [activeTab, setActiveTab] = useState("rera");
 
@@ -136,21 +135,6 @@ const PermitDetails = ({ formData, setField, prevStep, isDubai = true }) => {
           </div>
         </TabsContent>
       </Tabs>
-
-      {/* Navigation Buttons */}
-      <div className="flex justify-between mt-6">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={prevStep}
-          className="w-full sm:w-auto"
-        >
-          Back
-        </Button>
-        <Button type="submit" className="w-full sm:w-auto">
-          Continue
-        </Button>
-      </div>
     </div>
   );
 };

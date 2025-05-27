@@ -2,10 +2,9 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
-const Amenities = ({ formData, setField, prevStep }) => {
+const Amenities = ({ formData, setField }) => {
   const { setValue, getValues, trigger } = useFormContext();
 
   const selectedAmenities = getValues("selectedAmenities") || [];
@@ -56,20 +55,6 @@ const Amenities = ({ formData, setField, prevStep }) => {
             </CardContent>
           </Card>
         ))}
-      </div>
-
-      <div className="flex justify-between mt-6">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={prevStep}
-          className="w-full sm:w-auto"
-        >
-          Back
-        </Button>
-        <Button type="submit" className="w-full sm:w-auto">
-          Submit Listing
-        </Button>
       </div>
     </div>
   );
