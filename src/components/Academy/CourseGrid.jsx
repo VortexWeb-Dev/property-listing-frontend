@@ -3,6 +3,7 @@ import { courses } from "./../../mockdata/mockData";
 import CourseCard from "./CourseCard";
 import AcademyNavbar from "./AcademyNavbar";
 import CreateCourse from "./CreateCourse";
+import CreateTags from "./CreateTags";
 import { X, Plus } from "lucide-react";
 
 const CourseGrid = () => {
@@ -14,6 +15,7 @@ const CourseGrid = () => {
   const [availableTags, setAvailableTags] = useState([]);
   // State for create course modal
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showTagsModal, setShowTagsModal] = useState(false);
 
   // Extract all unique tags when component mounts
   useEffect(() => {
@@ -64,14 +66,21 @@ const CourseGrid = () => {
   // Handle successful course creation
   const handleCourseSuccess = (newCourse) => {
     console.log('Course created successfully:', newCourse);
-    // You can add the new course to the courses list here if needed
-    // For now, just show a success message
     alert('Course created successfully!');
+  };
+
+  const handleTagsSuccess = (newTag) => {
+    console.log('Tag created successfully:', newTag);
+    alert('Tag created successfully!');
   };
 
   // Handle modal close
   const handleModalClose = () => {
-    setShowCreateModal(false);
+    if(showCreateModal){
+      setShowCreateModal(false);
+    }else{
+      setShowTagsModal(false)
+    }
   };
 
   return (
@@ -79,8 +88,10 @@ const CourseGrid = () => {
       <AcademyNavbar />
       
       {/* Header with Create Course Button */}
-      <div className="flex justify-between items-center mx-6 mt-8 mb-4">
+      <div className="flex justify-between items-center  mx-6 mt-8 mb-4">
         <h1 className="text-2xl font-bold text-gray-800">Courses</h1>
+        <div className="flex justify-end items-center gap-4 mx-6 mt-8 ">
+
         <button
           onClick={() => setShowCreateModal(true)}
           className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
@@ -88,6 +99,15 @@ const CourseGrid = () => {
           <Plus className="h-4 w-4" />
           Create Course
         </button>
+
+        <button
+          onClick={() => setShowTagsModal(true)}
+          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
+          >
+          <Plus className="h-4 w-4" />
+          Create Tags
+        </button>
+          </div>
       </div>
 
       {/* Tag Filter Section */}
@@ -168,6 +188,11 @@ const CourseGrid = () => {
         isOpen={showCreateModal}
         onClose={handleModalClose}
         onSuccess={handleCourseSuccess}
+      />
+      <CreateTags 
+        isOpen={showTagsModal}
+        onClose={handleModalClose}
+        onSuccess={handleTagsSuccess}
       />
     </>
   );
